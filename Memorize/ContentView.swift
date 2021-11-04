@@ -9,8 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        ZStack {
+            RoundedRectangle(cornerRadius: 25.0)
+                .stroke(lineWidth: 3)
+                .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+            Text("Hello, world!")
+                .padding()
+        }.padding()
     }
 }
 
