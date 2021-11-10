@@ -9,11 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     
-    var emojis = ["🏎", "🛺", "🚓", "🚈", "🚌", "🚜", "🛴", "🚤", "🛸"] // the automatically inferred type is Array<String>
-    @State var emojiCount: Int = 6
+    @State var emojis = ["🏎", "🛺", "🚓", "🚈", "🚌", "🚜", "🛴", "🚤", "🛸"] // the automatically inferred type is Array<String>
+    
+    var carsThemeEmojis = ["🏎", "🛺", "🚓", "🚈", "🚌", "🚜", "🛴", "🚤", "🛸"]
+    var animalThemeEmojis = ["🦋", "🐧", "🦊", "🦆", "🐍", "🐊", "🪱", "🐳", "🦄", "🐙"]
+    var techThemeEmojis = ["💻", "📽", "📺", "💡", "🪙", "🖥", "📀", "🕹", "⌚️", "🎥"]
+    
+    @State var emojiCount: Int = 9
     
     var body: some View {
         VStack{
+            Text("Memorize").font(.largeTitle).fontWeight(.bold).multilineTextAlignment(.leading)
             ScrollView {
                 // LazyVGrid takes the number of columns and creates as many rows as required and arranges the elements as a grid while LazyHGrid takes the number of rows and creates as many columns as required and arranges the elements in a grid.
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) { // adaptive fixes the minimum width for an element and lets it fit the max in the other orientation. Usually the number of elements in the array describes the number of columns. Each GridItem element is individually customisable.
@@ -25,34 +31,75 @@ struct ContentView: View {
             }
             Spacer()
             HStack{
-                remove
+                carsTheme
+//                remove
                 Spacer() // A spacer pushes the elements to the ends and occupies any space left in between
-                add
+//                add
+                animalTheme
+                Spacer()
+                techTheme
             }.font(.largeTitle).padding(.horizontal).foregroundColor(.blue)
         }
         .padding(.horizontal)
         .foregroundColor(.red) // applies these props to all children unless they override it themselves
     }
     
-    var remove: some View {
+    
+    var carsTheme: some View {
         Button {
-            if emojiCount > 1 {
-                emojiCount -= 1
-            }
+            emojis = carsThemeEmojis.shuffled()
+            emojiCount = emojis.count
         } label: {
-            Image(systemName: "minus.circle") // derived from SF Symbols
+            VStack {
+                Image(systemName: "car")
+                Text("Vehicles").font(.body)
+            }
         }
     }
     
-    var add: some View {
+    var animalTheme: some View {
         Button {
-            if emojiCount < emojis.count {
-                emojiCount += 1
-            }
+            emojis = animalThemeEmojis.shuffled()
+            emojiCount = emojis.count
         } label: {
-            Image(systemName: "plus.circle") // derived from SF Symbols
+            VStack {
+                Image(systemName: "globe")
+                Text("Animals").font(.body)
+            }
         }
     }
+    
+    var techTheme: some View {
+        Button {
+            emojis = techThemeEmojis.shuffled()
+            emojiCount = emojis.count
+        } label: {
+            VStack {
+                Image(systemName: "laptopcomputer")
+                Text("Tech").font(.body)
+            }
+        }
+    }
+    
+//    var remove: some View {
+//        Button {
+//            if emojiCount > 1 {
+//                emojiCount -= 1
+//            }
+//        } label: {
+//            Image(systemName: "minus.circle") // derived from SF Symbols
+//        }
+//    }
+//
+//    var add: some View {
+//        Button {
+//            if emojiCount < emojis.count {
+//                emojiCount += 1
+//            }
+//        } label: {
+//            Image(systemName: "plus.circle") // derived from SF Symbols
+//        }
+//    }
     
 }
 
