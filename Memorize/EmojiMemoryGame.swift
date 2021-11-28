@@ -34,7 +34,7 @@ class EmojiMemoryGame {
     
     private(set) var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards: 4) { pairIndex in
         
-        EmojiMemoryGame.emojis[pairIndex]
+        EmojiMemoryGame.emojis[pairIndex] // EmojiMemoryGame is requried because the var is now static and a global var.
         
     }
     
