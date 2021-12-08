@@ -5,13 +5,15 @@
 //  Created by Sanchit Kalra on 28/11/21.
 //
 
+// THIS IS THE VIEWMODEL
+
 import SwiftUI
 
 //func makeCardContent (index: Int) -> String {
 //    return "😃"
 //}
 
-class EmojiMemoryGame {
+class EmojiMemoryGame: ObservableObject { // observable object are objects which can publish to the world that something has changed
    
     static let emojis = ["🏎", "🛺", "🚓", "🚈", "🚌", "🚜", "🛴", "🚤", "🛸"]
     
@@ -24,7 +26,7 @@ class EmojiMemoryGame {
 //    private(set) var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards: 4, createCardContent: {(index: Int) -> String in
 //        return "😃"
 //    })
-    // we can rewrite "(index: Int) -> String" to just "index" because Swift knows from context that the type of CardContent is String and for single arguments paranthesis aren't required around the argument's label.
+    // we can rewrite "(index: Int) -> String" to just "index" because Swift knows from context that the type of CardContent is String and for single arguments paranthesis aren't required around the argument' s label.
     // we can also omit the return keyword and simplify this even further. hence it becomes: {index in "😃"}
     // finally we can take the function out of the init where it is the second argument and replace index by _ because it is never used and only a constant string is returned and the entire init simplifies to:
     // private(set) var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards: 4) { _ in "😃"}
@@ -32,16 +34,25 @@ class EmojiMemoryGame {
     
     // FINAL IMPLEMENTATION
     
-    private(set) var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards: 4) { pairIndex in
+    @Published private(set) var model: MemoryGame<String> = MemoryGame<String>(numberOfPairsOfCards: 4) { pairIndex in
         
         EmojiMemoryGame.emojis[pairIndex] // EmojiMemoryGame is requried because the var is now static and a global var.
         
-    }
+    } // using @Published saves us the effort of writing objectWillChange.send() everywhere because now this object is tracked and any changes to it are notified automatically
+    
+    // var objectWillChange: ObservableObjectPublisher // this is what we'll use to publish to the world that something's changed; although we don't really need to init this, this is auto init
     
     // ref: self and static and property init
     
     var  cards: Array<MemoryGame<String>.Card> {
         return model.cards
+    }
+    
+    // MARK: - Intent(s)
+    
+    func choose(_ card: MemoryGame<String>.Card) {
+        // objectWillChange.send() // instructing the viewmodel to publish changes
+        model.choose(card)
     }
     
 }
